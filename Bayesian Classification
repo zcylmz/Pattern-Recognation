@@ -1,0 +1,45 @@
+load('bim488_hw1.mat')
+
+plot(C1(1,:), C1(2,:),'+')
+hold
+plot(C2(1,:), C2(2,:),'rd')
+plot(C3(1,:), C3(2,:),'*')
+
+size(C1)
+size(C2)
+size(C3)
+
+m1=transpose(mean(C1'));
+m2=transpose(mean(C2'));
+m3=transpose(mean(C3'));
+
+S1= cov(C1');
+S2= cov(C2');
+S3= cov(C3');
+
+x1 = [6 8]';
+x2 = [-5 -3]';
+x3 = [12 0]';
+
+x1pdf_C1 = comp_gauss_dens_val(m1,S1,x1);
+x2pdf_C1 = comp_gauss_dens_val(m1,S1,x2);
+x3pdf_C1 = comp_gauss_dens_val(m1,S1,x3);
+
+x1pdf_C3 = comp_gauss_dens_val(m3,S3,x1);
+x2pdf_C2 = comp_gauss_dens_val(m2,S2,x2);
+x3pdf_C2 = comp_gauss_dens_val(m2,S2,x3);
+
+x1pdf_C2 = comp_gauss_dens_val(m2,S2,x1);
+x2pdf_C3 = comp_gauss_dens_val(m3,S3,x2);
+x3pdf_C3 = comp_gauss_dens_val(m3,S3,x3);
+
+disp(x3pdf_C3)
+
+function [ value ] = comp_gauss_dens_val( m, S, x )
+    l = length(m);
+    exp_component = (x - m).'*inv(S)*(x - m);
+    value = 1/(((2*pi)^(l/2))*(det(S)^(1/2)))*exp(-1/2*exp_component);
+    
+end
+
+
